@@ -1,33 +1,65 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-    <div id="root"></div>
-    <script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
-    <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
-    <script type = "text/babel">
-        const root = document.getElementById("root");
-        let counter = 0;
-        function countUp(){
-            counter = counter + 1;
-            render();
-        }
-        function render() {
-            ReactDOM.render(<Container />, root);
-        }
+<html>
 
-        const container = () => (
-            <div>
-                <h3>Total clicks: {counter} </h3>
-                <button onClick = {countUp}>Click me </button>
-            </div>
-        );
-        ReactDOM.render(<Container />, root);
-    </script>
-    <body>
-        <div id="root"></div>
+<body>
+  <div id="root"></div>
 </body>
+
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script type="text/babel">
+  const root = document.getElementById("root");
+
+  function App() {
+    // min > hour 
+    const [amount, setAmount] = React.useState(0);
+    const [flipped, setFlipped] = React.useState(false);
+    const onChange = (event) => {
+      // console.log(event.target.value);
+      setAmount(event.target.value);
+    }
+
+    // const onFlip = () => setFlipped(!flipped);
+    const onFlip = () => {
+      reset();
+      setFlipped((current) => !current);
+    }
+
+    const reset = () => setAmount(0);
+
+    return (
+      <div>
+        <h1>Super Converter</h1>
+        <label htmlFor="minute">minute</label>
+        <input
+          id="amount"
+          value={flipped ? amount * 60 : amount}
+          placeholder="amount"
+          type="number"
+          onChange={onChange}
+          disabled={flipped}
+        />
+        <br />
+        <label htmlFor="hours">Hours</label>
+        <input
+          disabled={!flipped}
+          id="hours"
+          placeholder="Hours"
+          value={flipped ? amount : Math.round(amount / 60)}
+          type="number"
+          onChange={onChange}
+        /> <br />
+        <button onClick={reset}>Reset</button>
+        <button onClick={onFlip}> Flip </button>
+      </div>
+      );
+  }
+
+  ReactDOM.render(<App />, root);
+</script>
+
+
+
 </html>
+
