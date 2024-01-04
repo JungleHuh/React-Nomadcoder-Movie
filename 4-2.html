@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id = "root"></div>
+</body>
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script crossorigin src="https://unpkg.com/prop-types@15.7.2/prop-types.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script type="text/babel">
+        function Btn({text, onClick}){
+            console.log(text, "Re-rendered")
+            return <button
+            onClick = {onClick}
+            style = {{
+                backgroundColor: "tomato",
+                color: "white",
+                padding: "10px 20px",
+                border: 0,
+                borderRadius: 10,
+            }}
+            >
+            {text}
+        </button>
+        }
+        Btn.propTypes = {
+            //isRequired로 필수 요소를 지정해줄 수도 있다. 
+            //위에는 propTypes, 아래는 PropTypes니, 대소문자 구문 잘해주자.
+            text: PropTypes.string.isRequired,
+            fontSize: PropTypes.number,
+        }
+        
+        function App(){
+            const [value, setValue] = React.useState("Save Changes");
+            const changeValue = () => setValue("Revert Changes");
+            return  (
+                <div>
+                     {/* JSX에다가 추가하는 것은 이벤트리스너가 아니라, prop의 이름일 뿐입니다. 
+                        그렇기에, function Btn{prop} 형식으로 넣어줘야 작동합니다. */}
+                <Btn text = "Save Changes" fontSize ={18}/> 
+                <Btn text = {14} fontSize = "Continue"/>
+                </div>
+            );
+        }
+    const root = document.getElementById("root");     
+    ReactDOM.render(<App />, root) ;
+</script>
+
+</html>
