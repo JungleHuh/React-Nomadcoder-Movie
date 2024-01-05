@@ -1,30 +1,33 @@
-import { useState,useEffect } from "react";
+import { useState } from "react";
 
 function App() {
-  const [counter, setCounter] = useState(0);
-  const [keyword, setKeyword] = useState("");
-  const onClick = () => setCounter((prev) => prev + 1);
-  const onChange = (event) => setKeyword(event.target.value);
-  console.log("i run all the time");
-  useEffect(() => {
-    console.log("Call the API");
-  }, []);
-  useEffect(()=>{
-    if (keyword !== "" && keyword.length > 5 )
-    console.log("Search For", keyword);
-  }, [keyword]);
+  const [toDo, setToDo] = useState("");
+  const [toDos, setToDos] = useState([]);
+  const onChange = (event) => setToDo(event.target.value);
+  const onSubmit = (event) => {
+    event.preventDefault();
+    if (toDo === "") {
+      return;
+    }
+    setToDos((currentArray) => [toDo, ...currentArray]);
+    setToDo("");
+  };
+  console.log("i'm Done")
   return (
     <div>
-    <input
-    value = {keyword}
-    onChange = {onChange} 
-    type = "text" 
-    placeholder="Serach here." />
-
-    <h1>{counter}</h1>
-    <button onClick = {onClick}>Click Me</button>
+      <h1>My To Dos ({toDos.length})</h1>
+      <form onSubmit={onSubmit}>
+        <input
+          onChange={onChange}
+          value={toDo}
+          type="text"
+          placeholder="Write your to do..."
+        />
+        <button>Add To Do</button>
+      </form>
     </div>
   );
 }
+
 
 export default App;
